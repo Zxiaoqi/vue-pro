@@ -6,7 +6,8 @@
         <div class="logo">
             <h1>NEW</h1>
         </div>
-        <AuthInput></AuthInput>
+        <AuthInput placeholder="请输入用户名"></AuthInput>
+        <AuthInput placeholder="请输入密码" type="password"></AuthInput>
     </div>
 </template>
 
