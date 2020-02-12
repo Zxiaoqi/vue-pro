@@ -1,15 +1,16 @@
 <template>
     <div>
-        <div class="closeBtn">
+         <div class="closeBtn">
             <span class="iconfont icon-shanchu"></span>
         </div>
         <div class="logo">
             <h1>NEW</h1>
         </div>
+        <AuthInput placeholder="昵称" v-model="nickname"></AuthInput>
         <AuthInput placeholder="用户名/手机" v-model="username"></AuthInput>
         <AuthInput placeholder="密码" v-model="password" type="password"></AuthInput>
         <div class="btn">
-            <button @click='onLogin'>登入</button>
+            <button @click='onRegister'>注册</button>
         </div>
     </div>
 </template>
@@ -17,6 +18,7 @@
 
 <script>
 import AuthInput from '../components/AuthInput'
+
 export default {
     components:{
         AuthInput
@@ -24,19 +26,18 @@ export default {
     data(){
         return {
             username:'',
-            password:''
+            password:'',
+            nickname:''
         }
     },
     methods: {
-       async onLogin(){
-          const {data:res} = await  this.$http.post('/login',
-            {username:this.username,
-            password:this.password})
-            console.log(res);
-            if(res.message!=='登录成功'){
-                return false
-            }
-            window.sessionStorage.setItem('token',res.data.token)
+        onRegister(){
+            this.$http.post('/register',
+            {
+                username:this.username,
+                password:this.password,
+                nickname:this.nickname
+            })
         }
     },
 }
