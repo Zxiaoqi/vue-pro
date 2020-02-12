@@ -6,25 +6,27 @@
         <div class="logo">
             <h1>NEW</h1>
         </div>
-        <AuthInput placeholder="用户名/手机" v-model="username"></AuthInput>
-        <AuthInput placeholder="密码" v-model="password" type="password"></AuthInput>
-        <div class="btn">
-            <button @click='onLogin'>登入</button>
-        </div>
+        <AuthInput placeholder="用户名/手机" v-model="username"
+        rules='^.{3,10}$'></AuthInput>
+        <AuthInput placeholder="密码" v-model="password" type="password"
+        rules="^.{6,8}$"></AuthInput>
+        <AuthBtn class="btn" rounded color="#ca0000">登入</AuthBtn>
     </div>
 </template>
 
 
 <script>
 import AuthInput from '../components/AuthInput'
+import AuthBtn from '../components/AuthButton'
 export default {
     components:{
-        AuthInput
+        AuthInput,
+        AuthBtn
     },
     data(){
         return {
             username:'',
-            password:''
+            password:'',
         }
     },
     methods: {
@@ -47,7 +49,7 @@ export default {
 .closeBtn
     margin:2.778vw
     span
-        font-size: 30px
+        font-size: 8.333vw
 .logo
     h1
         margin:11.111vw 0
@@ -55,15 +57,5 @@ export default {
         text-align :center
         color:#ca0000
 .btn
-    margin-top 5.556vw
-    padding 5.556vw
-    text-align center
-    button 
-        height 11.111vw
-        width 80%
-        background-color #ca0000
-        color #fff
-        font-size 5vw
-        border 0
-        border-radius 5.556vw
+    color #fff
 </style>

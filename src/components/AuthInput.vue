@@ -1,6 +1,10 @@
 <template>
     <div class="input-wrap">
-        <input :type="type" :placeholder="placeholder" v-on="inputListeners">
+        <input
+        :type="type"
+        :placeholder="placeholder"
+        v-on="inputListeners"
+        :rules='rules'>
     </div>
 </template>
 
@@ -8,6 +12,10 @@
 <script>
 
 export default {
+    data(){
+        return{
+        }
+    },
     props:{
         placeholder:{
             type:String,
@@ -22,6 +30,12 @@ export default {
             default:function(){
                 return "text"
             }
+        },
+        rules:{
+            type:String,
+            default(){
+                return ''
+            }
         }
     },
     computed:{
@@ -35,16 +49,28 @@ export default {
                 // 或覆写一些监听器的行为
                 {
                     // 这里确保组件配合 `v-model` 的工作
-                    input: function (event) {
-                        vm.$emit('input', event.target.value)
+                    input: function (e) {
+                        // console.log(e.target.style);
+                        const regex=new RegExp(vm.rules)
+                        const isValid=regex.test(e.target.value)
+                        if(isValid){
+                            vm.$emit('input', isValid)
+                            // e.target.style.boxShadow='0 0 2px 1px #00a4ef'
+                            e.target.style.borderBottom='1px solid #00a4ef'
+                        }else{
+                            // e.target.style.boxShadow='0 0 2px 1px red'
+                            e.target.style.borderBottom='1px solid red'
+                        }
                     },
-                    focus:function (event) {
-                        vm.$emit('focus',event.target.value)
-                        event.target.style.boxShadow='0 0 2px 1px #ff0c0c'
+                    focus:function (e) {
+                        vm.$emit('focus',e.target.value)
                     },
-                    blur:function (event) {
-                        vm.$emit('blur',event.target.value)
-                        event.target.style.boxShadow='0 0 0 0'
+                    blur:function (e) {
+                        if(e.target.value.length===0){
+                            vm.$emit('blur',e.target.value)
+                            e.target.style.borderBottom="1px solid #cccccc"
+
+                        }
 
                     }
                 }
@@ -59,6 +85,7 @@ export default {
 <style lang="stylus">
 .input-wrap
     padding 5.556vw
+    text-align center
 input 
     width 100%
     height 10.556vw
@@ -69,10 +96,15 @@ input
     border-radius 4px
     text-align center
     font-size 4.444vw
+    // &.err
+        // box-shadow  0 0 2px 1px red
+    //     border-bottom 1px solid red
+    // &.success
+    //     box-shadow 0 0 2px 1px #00a4ef
+    //     border-bottom 1px solid #00a4ef
 input::-webkit-input-placeholder
     color #999
     font-size 4.444vw
     text-align center
     letter-spacing 0.833vw
-
 </style>

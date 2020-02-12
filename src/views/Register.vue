@@ -9,19 +9,18 @@
         <AuthInput placeholder="昵称" v-model="nickname"></AuthInput>
         <AuthInput placeholder="用户名/手机" v-model="username"></AuthInput>
         <AuthInput placeholder="密码" v-model="password" type="password"></AuthInput>
-        <div class="btn">
-            <button @click='onRegister'>注册</button>
-        </div>
+        <AuthBtn class="btn" rounded color="#ca0000">注册</AuthBtn>
     </div>
 </template>
 
 
 <script>
 import AuthInput from '../components/AuthInput'
-
+import AuthBtn from '../components/AuthButton'
 export default {
     components:{
-        AuthInput
+        AuthInput,
+        AuthBtn
     },
     data(){
         return {
@@ -56,15 +55,5 @@ export default {
         text-align :center
         color:#ca0000
 .btn
-    margin-top 5.556vw
-    padding 5.556vw
-    text-align center
-    button 
-        height 11.111vw
-        width 80%
-        background-color #ca0000
-        color #fff
-        font-size 5vw
-        border 0
-        border-radius 5.556vw
+    color #fff
 </style>
