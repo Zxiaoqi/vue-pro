@@ -7,9 +7,12 @@
             <h1>NEW</h1>
         </div>
         <AuthInput placeholder="昵称" v-model="nickname"></AuthInput>
-        <AuthInput placeholder="用户名/手机" v-model="username"></AuthInput>
-        <AuthInput placeholder="密码" v-model="password" type="password"></AuthInput>
-        <AuthBtn class="btn" rounded color="#ca0000">注册</AuthBtn>
+        <AuthInput placeholder="用户名/手机" v-model="username"
+        rules='^.{3,10}$'></AuthInput>
+        <AuthInput placeholder="密码" v-model="password" type="password"
+        rules="^.{6,8}$"></AuthInput>
+        <AuthBtn class="btn" rounded  color="#ca0000"
+        @click="onRegister">注册</AuthBtn>
     </div>
 </template>
 
@@ -17,10 +20,11 @@
 <script>
 import AuthInput from '../components/AuthInput'
 import AuthBtn from '../components/AuthButton'
+
 export default {
     components:{
         AuthInput,
-        AuthBtn
+        AuthBtn,
     },
     data(){
         return {
@@ -30,13 +34,25 @@ export default {
         }
     },
     methods: {
-        onRegister(){
-            this.$http.post('/register',
+       async onRegister(){
+         const {data:res} = await this.$http.post('/register',
             {
                 username:this.username,
                 password:this.password,
                 nickname:this.nickname
             })
+            console.log(res);
+            if(res.statusCode===200){
+                this.router.push('/login',{
+                    params:{
+                        username:this.username,
+                        password:this.password,
+                        nickname:this.nickname
+                    }
+                })
+            }else{
+                this.$toast(res.message);
+            }
         }
     },
 }

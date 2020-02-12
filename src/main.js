@@ -3,6 +3,11 @@ import App from './App.vue'
 import router from './router'
 import './assets/css/global.css'
 import './assets/css/icon.css'
+import Vant from "vant";
+import "vant/lib/index.css";
+
+Vue.use(Vant);
+
 
 import axios from "axios";
 // 先设置

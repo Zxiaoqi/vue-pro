@@ -12,7 +12,7 @@
             'ui-btn-disabled':disabled
         }" :style="`
             --color-tint:${TintColor}
-        `">
+        `" :disabled='disabled'>
             <slot>按钮</slot>
         </button>
     </div>
@@ -37,6 +37,7 @@ export default {
         onClickBtn(e){
             if(!this.disabled){
                 this.$emit("click",e);
+                // console.dir(e.target);  
             }
         }
     },
