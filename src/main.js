@@ -11,9 +11,21 @@ Vue.use(Vant);
 
 import axios from "axios";
 // 先设置
-axios.defaults.baseURL = "http://127.0.0.1:3000/";
+axios.defaults.baseURL = "http://127.0.0.1:3000";
 
+axios.interceptors.request.use(
+	config => {
+		// 在发送请求之前做些什么
+		config.headers.Authorization = window.sessionStorage.getItem("token");
+		return config;
+	},
+	error => {
+		// 对请求错误做些什么
+		return Promise.reject(error);
+	}
+);
 Vue.prototype.$http = axios;
+
 Vue.config.productionTip = false
 
 new Vue({

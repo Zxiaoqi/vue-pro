@@ -58,7 +58,7 @@ export default {
                         const regex=new RegExp(vm.rules)
                         vm.isValid=regex.test(e.target.value)
                         if(vm.isValid){
-                            vm.$emit('input', vm.isValid)
+                            vm.$emit('input', e.target.value)
                             // e.target.style.boxShadow='0 0 2px 1px #00a4ef'
                             e.target.style.borderBottom='1px solid #00a4ef'
                         }else{

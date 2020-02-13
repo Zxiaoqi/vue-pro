@@ -9,8 +9,9 @@
         <AuthInput placeholder="用户名/手机" v-model="username"
         rules='^.{3,10}$'></AuthInput>
         <AuthInput placeholder="密码" v-model="password" type="password"
-        rules="^.{6,8}$"></AuthInput>
-        <AuthBtn class="btn" rounded color="#ca0000">登入</AuthBtn>
+        rules="^.{3,8}$"></AuthInput>
+        <AuthBtn class="btn" rounded color="#ca0000"
+        @click="onLogin">登入</AuthBtn>
     </div>
 </template>
 
@@ -34,11 +35,17 @@ export default {
           const {data:res} = await  this.$http.post('/login',
             {username:this.username,
             password:this.password})
-            console.log(res);
-            if(res.message!=='登录成功'){
+            // console.log(res);
+            if(res.message!=="登录成功"){
+                this.$notify({
+                    message:'登入失败',
+                    type:'danger',
+                    duration:1000
+                });
                 return false
             }
             window.sessionStorage.setItem('token',res.data.token)
+            this.$router.push('/person')
         }
     },
 }

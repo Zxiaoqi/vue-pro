@@ -42,7 +42,7 @@ export default {
                 nickname:this.nickname
             })
             console.log(res);
-            if(res.statusCode===200){
+            if(res.message==="注册成功"){
                 this.router.push('/login',{
                     params:{
                         username:this.username,
@@ -51,7 +51,7 @@ export default {
                     }
                 })
             }else{
-                this.$toast(res.message);
+                this.$toast('用户已存在');
             }
         }
     },
