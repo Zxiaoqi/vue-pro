@@ -4,28 +4,33 @@ import Home from '../views/Home.vue'
 import Login from '@/views/Login'
 import Register from '@/views/Register'
 import Person from '@/views/Person'
+import MyFocus from '@/views/MyFocus'
 
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/login',
-    component:Login
-  },
-  {
-    path: '/register',
-    component:Register
-  },
-  {
-    path: '/person',
-    component:Person
-  }
-]
+	{
+		path: "/",
+		name: "Home",
+		component: Home
+	},
+	{
+		path: "/login",
+		component: Login
+	},
+	{
+		path: "/register",
+		component: Register
+	},
+	{
+		path: "/person",
+		component: Person
+	},
+	{
+		path: "/myfocus",
+		component: MyFocus
+	}
+];
 
 const router = new VueRouter({
   mode: 'history',

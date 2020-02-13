@@ -78,7 +78,6 @@ resize(minWidth,height,paddingLR,fontSize)
        resize(80%,10vw,4.444vw,0.875rem)
        border 0 
        border-radius 4px
-       box-shadow  0px 0px 3px 1px red
        background-color  var(--color-tint) //属性方法
        user-select none
        color inherit

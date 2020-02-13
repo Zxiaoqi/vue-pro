@@ -13,6 +13,7 @@
         rules="^.{6,8}$"></AuthInput>
         <AuthBtn class="btn" rounded  color="#ca0000"
         @click="onRegister">注册</AuthBtn>
+        <AuthBtn class="btn" rounded @click='toLogin'>去登入</AuthBtn>
     </div>
 </template>
 
@@ -35,24 +36,34 @@ export default {
     },
     methods: {
        async onRegister(){
-         const {data:res} = await this.$http.post('/register',
+        if(!this.username||!this.password||!this.nickname){
+            this.$toast('请输入完整信息')
+            return false
+        }
+        const {data:res} = await this.$http.post('/register',
             {
                 username:this.username,
                 password:this.password,
                 nickname:this.nickname
             })
-            console.log(res);
-            if(res.message==="注册成功"){
-                this.router.push('/login',{
-                    params:{
-                        username:this.username,
-                        password:this.password,
-                        nickname:this.nickname
-                    }
-                })
+            // console.log(res);
+            if(!res.statusCode){
+                this.$toast.success('注册成功')
+                setTimeout(() => {
+                    this.router.push('/person',{
+                        params:{
+                            username:this.username,
+                            password:this.password,
+                            nickname:this.nickname
+                        }
+                    })
+                }, 1000);
             }else{
                 this.$toast('用户已存在');
             }
+        },
+        toLogin(){
+            this.$router.push('/login')
         }
     },
 }

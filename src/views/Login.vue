@@ -12,6 +12,7 @@
         rules="^.{3,8}$"></AuthInput>
         <AuthBtn class="btn" rounded color="#ca0000"
         @click="onLogin">登入</AuthBtn>
+        <AuthBtn class="btn" rounded @click='toRegister'>去注册</AuthBtn>
     </div>
 </template>
 
@@ -31,21 +32,36 @@ export default {
         }
     },
     methods: {
-       async onLogin(){
-          const {data:res} = await  this.$http.post('/login',
-            {username:this.username,
-            password:this.password})
-            // console.log(res);
-            if(res.message!=="登录成功"){
-                this.$notify({
-                    message:'登入失败',
-                    type:'danger',
-                    duration:1000
-                });
+        onLogin(){
+            if(!this.username||!this.password){
+                this.$toast('请输入完整信息')
                 return false
             }
-            window.sessionStorage.setItem('token',res.data.token)
-            this.$router.push('/person')
+            this.$http.post('/login',
+            {username:this.username,
+            password:this.password}).then(res=>{
+                const {data,message}=res.data
+                // console.log(res);
+                if(message!=="登录成功"){
+                    this.$notify({
+                        message:'登入失败',
+                        type:'danger',
+                        duration:1000
+                    });
+                    return false
+                }
+                this.$toast.success('登录成功')
+                setTimeout(() => {
+                    window.sessionStorage.setItem('token',data.token)
+                    window.sessionStorage.setItem('user_id',data.user.id)
+                    this.$router.push('/person')
+                }, 1000);
+            }).catch(err=>{
+                this.$toast.fail(err.response.data.message)
+            })
+        },
+        toRegister(){
+            this.$router.push('/register')
         }
     },
 }
@@ -65,4 +81,7 @@ export default {
         color:#ca0000
 .btn
     color #fff
+    button::first-child
+        box-shadow  0px 0px 3px 1px red
+
 </style>
