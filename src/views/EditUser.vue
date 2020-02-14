@@ -11,7 +11,7 @@
         round
         width="19.444vw"
         height="19.444vw"
-        src="https://img.yzcdn.cn/vant/cat.jpeg"
+        :src="'http://liangwei.tech:3000'+userData.head_img"
         />
         <van-cell title="昵称" is-link :value="userData.nickname" />
         <van-cell title="密码" is-link value="******" />
@@ -26,6 +26,7 @@ export default {
     data(){
         return {
             userData:{
+                head_img:'',
                 nickname:'',
                 gender:1
             },

@@ -2,7 +2,7 @@
     <div>
         <div class="profile">
             <van-image round width="27.5vw" height="19.444vw"
-            :src="personData.head_img" fit="cover"/>
+            :src="'http://liangwei.tech:3000'+personData.head_img" fit="cover"/>
             <van-cell :class="'iconfont'+' '+filterGender"
             :title="personData.nickname"
             :label=personData.create_date|formatDate
