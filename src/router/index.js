@@ -5,7 +5,8 @@ import Login from '@/views/Login'
 import Register from '@/views/Register'
 import Person from '@/views/Person'
 import MyFocus from '@/views/MyFocus'
-
+import EditUser from "@/views/EditUser";
+import ToEditUser from "@/views/ToEditUser";
 Vue.use(VueRouter)
 
 const routes = [
@@ -29,6 +30,14 @@ const routes = [
 	{
 		path: "/myfocus",
 		component: MyFocus
+	},
+	{
+		path: "/edituser",
+		component: EditUser,
+	},
+	{
+		path: "/edit",
+		component: ToEditUser
 	}
 ];
 
