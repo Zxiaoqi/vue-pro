@@ -5,8 +5,9 @@
         left-arrow
         @click-left="onClickLeft"
         />
-        <div class="watchlist"
-        v-for="(item,i) of User_follwsList" :key="i">
+        <div v-if="User_follwsList.length!==0">
+            <div class="watchlist"
+            v-for="(item,i) of User_follwsList" :key="i">
                 <van-image
                 round
                 width="13.611vw"
@@ -17,7 +18,12 @@
                     <van-button round size="small" @click='unfollow(item.id)'>
                         取消关注</van-button>
                 </van-cell>
+            </div>
         </div>
+        <div v-else>
+            还没有关注
+        </div>
+        
     </div>
 </template>
 
@@ -32,7 +38,7 @@ export default {
     },
     methods: {
         onClickLeft(){
-            this.$router.push('/person')
+            this.$router.replace('/person')
         },
         //获取关注列表
         getUser_follws(){

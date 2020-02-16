@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import './assets/css/global.css'
 import './assets/css/icon.css'
-import Vant from "vant";
+import Vant, { Toast } from "vant";
 import "vant/lib/index.css";
 
 Vue.use(Vant);
@@ -24,6 +24,23 @@ axios.interceptors.request.use(
 		return Promise.reject(error);
 	}
 );
+axios.interceptors.response.use(
+	res => { 
+		const { statusCode } = res.data
+		let regexp = /^4\d\d$/
+		if (statusCode && regexp.test(statusCode)) { 
+			Toast('数据出错')
+		}
+		return res
+	},
+	error => {
+		return Promise.reject(error)
+	}
+);
+   
+axios.interceptors.response.use({
+
+})
 Vue.prototype.$http = axios;
 
 Vue.config.productionTip = false

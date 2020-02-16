@@ -7,6 +7,9 @@ import Person from '@/views/Person'
 import MyFocus from '@/views/MyFocus'
 import EditUser from "@/views/EditUser";
 import ToEditUser from "@/views/ToEditUser";
+import MyCollection from "@/views/MyCollection";
+import Index from '@/views/Index'
+import Search from '@/views/Search'
 Vue.use(VueRouter)
 
 const routes = [
@@ -33,11 +36,23 @@ const routes = [
 	},
 	{
 		path: "/edituser",
-		component: EditUser,
+		component: EditUser
 	},
 	{
 		path: "/edit",
 		component: ToEditUser
+	},
+	{
+		path: "/collection",
+		component: MyCollection
+	},
+	{
+		path: "/index",
+		component: Index
+	},
+	{
+		path: "/search",
+		component: Search
 	}
 ];
 
@@ -49,7 +64,18 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
 	if (to.path === "/login") return next();
 	const tokenStr = window.sessionStorage.getItem("token");
-	if (!tokenStr) return next("/login");
+	// next("/login");
+	const topath = [
+		'/person',
+		'/register'
+	]
+	if (topath.indexOf(to.path) > -1) {
+		if (tokenStr) { 
+			return next()
+		}else {
+			return router.push("/login");
+		} 
+	} 
 	// !!!最后一定要调用next()方法，不然router不会执行
 	next();
 });

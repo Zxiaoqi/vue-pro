@@ -12,10 +12,10 @@
         width="19.444vw"
         height="19.444vw"
         :src="'http://liangwei.tech:3000'+userData.head_img"
-        />
-        <van-cell title="昵称" is-link :value="userData.nickname" />
-        <van-cell title="密码" is-link value="******" />
-        <van-cell title="性别" is-link :value="gender" />
+        @click='onClickEdit'/>
+        <van-cell title="昵称" @click='onClickEdit' is-link :value="userData.nickname" />
+        <van-cell title="密码" @click='onClickEdit' is-link value="******" />
+        <van-cell title="性别" @click='onClickEdit' is-link :value="gender" />
     </div>
 </template>
 
@@ -77,6 +77,6 @@ export default {
 .edituser .van-image
         position relative
         left 50%
-        padding 5.556vw 0
+        margin 5.556vw 0
         transform translate(-50%)
 </style>

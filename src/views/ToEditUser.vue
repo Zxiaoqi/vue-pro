@@ -11,7 +11,7 @@
         multiple
         v-model="fileList"
         :max-count="1"
-        :before-read="beforeRead"
+        :after-read="afterRead"
         />
         <van-cell-group>
             <van-field v-model="userData.nickname"
@@ -30,7 +30,6 @@
 
 
 <script>
-const path= require('path')
 export default {
     data(){
         return {
@@ -44,7 +43,7 @@ export default {
             id:'',
             fileList:[
                 { 
-                    url: 'https://img.yzcdn.cn/vant/leaf.jpg',
+                    url: 'https://img.yzcdn.cn/vant/leaf.jpg'
                 }
             ]
         }
@@ -54,14 +53,23 @@ export default {
             this.$router.push({path:'/edituser',query:{id:this.id}})
         },
         onClickEdit(){
-            this.$http.post(`/user_update/${this.id}`).then(res=>{
+            //本地服务无法更新数据
+            // console.log(this.userData);
+            this.$http.post(`/user_update/${this.id}`,
+            {params:this.userData}).then(res=>{
                 // console.log(res);
-                if(!res.statusCode){
+                const {statusCode,message}=res.data
+                if(!statusCode){
                     this.$toast.success({
-                        message:'修改成功',
+                        message:message,
                         duration:500
                     })
                     this.onClickLeft()
+                }else{
+                    this.$toast.success({
+                        message:message,
+                        duration:500
+                    })
                 }
             })
         },
@@ -77,18 +85,11 @@ export default {
                 this.$toast.fail('系统错误')
             })
         },
-        beforeRead(file) {
-            if (file.type !== 'image/jpeg') {
-                this.$toast('请上传 jpg 格式图片');
-                return false;
-            }
-            this.fileList.push({
-                url:path.join('C:/Users/windows/Pictures/ps图',file.name)
-            })
-            this.userData.head_img=file.name
-            // console.log(this.fileList);
+        afterRead(file) {
             // console.log(file);
-        },
+            this.userData.head_img = file.file
+            // console.log(file);
+        }
     },
     created() {
         this.getUserData()

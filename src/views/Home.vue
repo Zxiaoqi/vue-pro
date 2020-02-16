@@ -19,6 +19,9 @@ export default {
       window.sessionStorage.removeItem('user_id')
     }
   },
+  created() {
+    this.logout()
+  },
 }
 </script>
 <style lang="stylus">
