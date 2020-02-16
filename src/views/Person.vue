@@ -53,7 +53,7 @@ export default {
         getPersonData(){
             const id =window.sessionStorage.getItem('user_id')
             this.$http.get(`/user/${id}`).then(res=>{
-                console.log(res);
+                // console.log(res);
                 const {data}=res.data
                 if(!res.statusCode){
                     this.personData=data

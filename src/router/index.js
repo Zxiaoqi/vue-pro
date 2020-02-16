@@ -10,6 +10,7 @@ import ToEditUser from "@/views/ToEditUser";
 import MyCollection from "@/views/MyCollection";
 import Index from '@/views/Index'
 import Search from '@/views/Search'
+import CategoryList from "@/views/CategoryList";
 Vue.use(VueRouter)
 
 const routes = [
@@ -53,6 +54,10 @@ const routes = [
 	{
 		path: "/search",
 		component: Search
+	},
+	{
+		path: "/category",
+		component: CategoryList
 	}
 ];
 

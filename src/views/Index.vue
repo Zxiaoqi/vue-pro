@@ -14,16 +14,15 @@
         </van-search>
         <van-tabs :style="tabsStyle">
             <van-tab v-for="(index,i) in 5" :title="'标签 ' + index" :key="i">
-                内容 {{ index }}
             </van-tab>
-            <van-tab disabled></van-tab>
+            <!-- <van-tab disabled></van-tab> -->
             <!-- <van-tab class="addCategory"
                 @click="toCate" title='plus'>
                 <van-icon name="plus" size='5.556vw' />
             </van-tab> -->
         </van-tabs>
         <!-- 内容 -->
-        <div class="content">
+        <div class="content" :style="marginTop">
             <div class="collection" v-for="(item,i) in articleList" :key="i">
                 <p>{{item.title}}</p>
                 <div class="clearfix" v-if="item.cover">
@@ -60,7 +59,8 @@ export default {
             active:0,
             articleList:[],
             total:0,
-            tabsStyle:'0'
+            tabsStyle:'',
+            marginTop:''
         }
     },
     methods: {
@@ -89,9 +89,15 @@ export default {
                     position:'fixed',
                     width:100+'%'
                 }
+                this.marginTop = {
+                    marginTop:'55px'
+                }
             }else{
                 this.tabsStyle={
                     position:'relative',
+                }
+                this.marginTop = {
+                    marginTop:'0'
                 }
             }
         }
@@ -118,23 +124,8 @@ export default {
         background-color #fff
         top 0
         z-index 999
-        // .van-tabs__wrap
-        //     position relative
-            // .van-tab:last-child
-            //     position absolute
-            //     right 0
-            //     top 0
-            //     z-index 999
-            //     width 16.667vw
-            //     height 11.667vw
-            //     padding 1px 0
-            //     outline 0
-            //     border 0
-            //     background-color #fff
-            //     .van-icon
-            //         padding 5px 0 0
 .content
-    padding 10px 10px
+    padding 0 10px
     .collection
         width 100%
         padding 10px 0
@@ -144,10 +135,12 @@ export default {
             padding-right  1px 
         p
             font-size 4.167vw
-            padding 3px 0
+            padding 5px 0
         span
+            display inline-block
             font-size 3.611vw
             color #888
+            padding 8px 5px 0 0
 .clearfix:after{
   content: "020"; 
   display: block; 
