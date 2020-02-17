@@ -12,7 +12,7 @@
         >
         <div slot="action" @click="onSearch">搜索</div>
         </van-search>
-        <van-tabs :style="tabsStyle" v-model="activeTab" sticky @click="getArtList()">
+        <van-tabs :style="tabsStyle" v-model="activeTab" sticky @click="getArtList(cateList[activeTab].id)">
             <van-tab v-for="(item,i) in cateList" :title="item.name" :key="i">
                 <div class="collection" v-for="(item,i) in articleList" :key="i">
                     <div class="title" @click="toArtDetail(item.id)">{{item.title}}</div>
@@ -87,10 +87,10 @@ export default {
         },
         getArtList(id){
             this.$http.get('/post',
-            {query:{
+            {params:{
                 category:id
             }}).then(res=>{
-                console.log(res);
+                // console.log(res);
                 const {data}=res.data
                 if(!res.data.statusCode){
                     this.articleList=data
