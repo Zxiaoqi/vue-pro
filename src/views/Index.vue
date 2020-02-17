@@ -32,27 +32,8 @@
                 </div>
             </van-tab>
         </van-tabs>
-        <!-- 内容 -->
-        <!-- <div class="content" :style="marginTop">
-            <div class="collection" v-for="(item,i) in articleList" :key="i">
-                <div class="title" @click="toArtDetail(item.id)">{{item.title}}</div>
-                <div class="clearfix" v-if="item.cover">
-                    <van-image
-                    width="30.833vw"
-                    height="22.222vw"
-                    fit="cover"
-                    v-for="(item1,j) in item.cover" :key="j"
-                    :src="item1.url"
-                    />
-                </div>
-                <div class="user">
-                    <span>{{item.user.nickname}}</span>
-                    <span></span>
-                </div>
-            </div>
-        </div> -->
         <!-- 底部导航 -->
-        <van-tabbar v-model="active">
+        <van-tabbar v-model="active" fixed>
             <van-tabbar-item icon="home-o">首页</van-tabbar-item>
             <van-tabbar-item icon="search">标签</van-tabbar-item>
             <van-tabbar-item icon="friends-o">标签</van-tabbar-item>

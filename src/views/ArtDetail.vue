@@ -5,7 +5,7 @@
         left-text="NEW"
         @click-left="onClickLeft"
         >
-            <template v-if="!artContent.has_follow">
+            <template v-if="!isFocus">
                 <button slot="right" :style="{backgroundColor:'red',color:'#fff'}"
                 @click="focusUser"
                 >{{btnFocus}}</button>
@@ -41,8 +41,8 @@ export default {
                 title:'',
                 content:'',
                 user:{},
-                has_follow:''
             },
+            isFocus:'',
             count:1
         }
     },
@@ -74,7 +74,7 @@ export default {
                 // console.log(res);
                 const {message}=res.data
                 if(message==='关注成功'){
-                    this.artContent.has_follow=true
+                    this.isFocus=true
                     this.$toast(message)
                 }
             })

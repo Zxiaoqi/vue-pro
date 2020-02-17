@@ -5,6 +5,6 @@
 input, button{
     outline: 0;
 }
-#app .van-tabbar {
-    bottom:0
+#app .van-tabbar{
+    z-index: 999;
 }
