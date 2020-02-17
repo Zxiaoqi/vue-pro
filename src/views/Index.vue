@@ -12,19 +12,30 @@
         >
         <div slot="action" @click="onSearch">搜索</div>
         </van-search>
-        <van-tabs :style="tabsStyle">
-            <van-tab v-for="(index,i) in 5" :title="'标签 ' + index" :key="i">
+        <van-tabs :style="tabsStyle" v-model="activeTab" sticky @click="getArtList()">
+            <van-tab v-for="(item,i) in cateList" :title="item.name" :key="i">
+                <div class="collection" v-for="(item,i) in articleList" :key="i">
+                    <div class="title" @click="toArtDetail(item.id)">{{item.title}}</div>
+                    <div class="clearfix" v-if="item.cover">
+                        <van-image
+                        width="30.833vw"
+                        height="22.222vw"
+                        fit="cover"
+                        v-for="(item1,j) in item.cover" :key="j"
+                        :src="item1.url"
+                        />
+                    </div>
+                    <div class="user">
+                        <span>{{item.user.nickname}}</span>
+                        <span></span>
+                    </div>
+                </div>
             </van-tab>
-            <!-- <van-tab disabled></van-tab> -->
-            <!-- <van-tab class="addCategory"
-                @click="toCate" title='plus'>
-                <van-icon name="plus" size='5.556vw' />
-            </van-tab> -->
         </van-tabs>
         <!-- 内容 -->
-        <div class="content" :style="marginTop">
+        <!-- <div class="content" :style="marginTop">
             <div class="collection" v-for="(item,i) in articleList" :key="i">
-                <p>{{item.title}}</p>
+                <div class="title" @click="toArtDetail(item.id)">{{item.title}}</div>
                 <div class="clearfix" v-if="item.cover">
                     <van-image
                     width="30.833vw"
@@ -39,7 +50,7 @@
                     <span></span>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- 底部导航 -->
         <van-tabbar v-model="active">
             <van-tabbar-item icon="home-o">首页</van-tabbar-item>
@@ -58,9 +69,10 @@ export default {
         return {
             active:0,
             articleList:[],
-            total:0,
             tabsStyle:'',
-            marginTop:''
+            marginTop:'',
+            activeTab:0,
+            cateList:[]
         }
     },
     methods: {
@@ -70,17 +82,31 @@ export default {
         toCate(){
 
         },
-        getArtList(){
+        toArtDetail(id){
+            this.$router.push({path:'/artdetail',query:{id:id}})
+        },
+        getArtList(id){
             this.$http.get('/post',
-            {query:{category:window.sessionStorage.getItem('user_id')}}).then(res=>{
-                // console.log(res);
-                const {data,total}=res.data
+            {query:{
+                category:id
+            }}).then(res=>{
+                console.log(res);
+                const {data}=res.data
                 if(!res.data.statusCode){
                     this.articleList=data
-                    this.total=total
                 }
             })
         },
+        getCateList(){
+            this.$http.get('/category').then(res=>{
+                // console.log(res);
+                const {data,statusCode}=res.data
+                if(!statusCode){
+                    this.cateList=data
+                }
+            })
+        },
+        //定义滚动监听
         tabsTop(){
             let scroll=document.documentElement.scrollTop
             //  console.log(scroll);
@@ -103,10 +129,11 @@ export default {
         }
     },
     mounted() {
-        window.addEventListener("scroll", this.tabsTop);
+        // window.addEventListener("scroll", this.tabsTop);
     },
     created() {
         this.getArtList()
+        this.getCateList()
     },
 }
 
@@ -124,23 +151,27 @@ export default {
         background-color #fff
         top 0
         z-index 999
-.content
+.van-tabs__content
     padding 0 10px
     .collection
         width 100%
-        padding 10px 0
+        padding 5px 0 10px
         border-bottom 1px solid #eee
         .van-image
             float left
             padding-right  1px 
-        p
+        .title
             font-size 4.167vw
+            font-family 'MicrosoftYaHei'
             padding 5px 0
-        span
-            display inline-block
-            font-size 3.611vw
-            color #888
-            padding 8px 5px 0 0
+            &:active
+                color #666
+        .user
+            span
+                display inline-block
+                font-size 3.611vw
+                color #888
+                padding 8px 5px 0 0
 .clearfix:after{
   content: "020"; 
   display: block; 

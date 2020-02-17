@@ -53,7 +53,7 @@ export default {
             this.$router.push({path:'/edituser',query:{id:this.id}})
         },
         onClickEdit(){
-            //本地服务无法更新数据
+            //本地无法修改
             // console.log(this.userData);
             this.$http.post(`/user_update/${this.id}`,
             {params:this.userData}).then(res=>{
@@ -64,7 +64,9 @@ export default {
                         message:message,
                         duration:500
                     })
-                    this.onClickLeft()
+                    setTimeout(() => {
+                        this.onClickLeft()
+                    }, 500);
                 }else{
                     this.$toast.success({
                         message:message,
@@ -88,7 +90,9 @@ export default {
         afterRead(file) {
             // console.log(file);
             this.userData.head_img = file.file
-            // console.log(file);
+            // this.$http.post('/upload',{file:file}).then(res=>{
+            //     // console.log(res);
+            // })
         }
     },
     created() {

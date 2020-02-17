@@ -26,7 +26,7 @@ export default {
     data(){
         return {
             userData:{
-                head_img:'',
+                head_img:'/uploads/image/IMG1568705287936.jpeg',
                 nickname:'',
                 gender:1
             },
@@ -40,17 +40,17 @@ export default {
         onClickEdit(){
             this.$router.push({path:'/edit',query:{id:this.id}})
         },
-        getUserData(){
+       async getUserData(){
             this.id =this.$route.query.id
-            this.$http.get(`/user/${this.id}`).then(res=>{
+            const {data:res} = await this.$http.get(`/user/${this.id}`)
                 // console.log(res);
-                const {data}=res.data
-                if(!res.statusCode){
-                    this.userData=data
-                }
-            }).catch(()=>{
-                this.$toast.fail('系统错误')
-            })
+            const {data}=res
+            if(!data.head_img){
+                data.head_img='/uploads/image/IMG1568705287936.jpeg'
+            }
+            if(!res.data.statusCode){
+                this.userData=data
+            }
         },
     },
     computed:{
@@ -65,7 +65,7 @@ export default {
     created() {
         this.getUserData()
         // console.log(this.$route); 
-    },
+    }
 }
 
 </script>

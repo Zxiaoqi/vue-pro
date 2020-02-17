@@ -21,10 +21,10 @@
         </van-cell-group>
         <Button class="btn" color="red" @click="quit">退出</Button>
         <van-tabbar v-model="active">
-            <van-tabbar-item icon="home-o" to="/index">标签</van-tabbar-item>
+            <van-tabbar-item icon="home-o" to="/index">首页</van-tabbar-item>
             <van-tabbar-item icon="search">标签</van-tabbar-item>
             <van-tabbar-item icon="friends-o">标签</van-tabbar-item>
-            <van-tabbar-item icon="setting-o">标签</van-tabbar-item>
+            <van-tabbar-item icon="setting-o">个人中心</van-tabbar-item>
         </van-tabbar>
     </div>
 </template>

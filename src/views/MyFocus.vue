@@ -12,7 +12,7 @@
                 round
                 width="13.611vw"
                 height="11.111vw"
-                :src="item.head_img"/>
+                :src="'http://liangwei.tech:3000'+item.head_img"/>
                 <van-cell center :title="item.nickname"
                 :label=item.create_date|formatDate>
                     <van-button round size="small" @click='unfollow(item.id)'>
@@ -20,7 +20,7 @@
                 </van-cell>
             </div>
         </div>
-        <div v-else>
+        <div v-else class="notCollect">
             还没有关注
         </div>
         
@@ -89,4 +89,9 @@ export default {
     .van-button
         // border 0
         background-color #99999933
+.notCollect
+    padding 2.778vw
+    font-size 3.333vw
+    color #777
+    text-align center
 </style>

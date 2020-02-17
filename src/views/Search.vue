@@ -37,7 +37,11 @@ export default {
     methods: {
         onSearch(){
             this.$http.get('/post_search',
-            {query:{keyword:this.value}}).then(res=>{
+            {query:{
+                keyword:this.value,
+                pageIndex:1,
+                pageSize:2
+            }}).then(res=>{
                 console.log(res);
             })
         },
@@ -73,8 +77,11 @@ export default {
         width 100%
 .searchRoot
     .van-panel
+        .van-cell__title
+            span
+                font-size 3.611vw
         p
-            padding 1.389vw 5.556vw
+            padding 1.389vw 4.444vw
             color #666
-            font-size 3.889vw
+            font-size 3.611vw
 </style>

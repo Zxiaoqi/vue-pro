@@ -6,7 +6,7 @@
             left-arrow
             @click-left="onClickLeft"
             />
-            <div class="content" v-if="articleList.lenght!==0">
+            <div class="content" v-if="articleList.length!==0">
                 <div class="collection" v-for="(item,i) in articleList" :key="i">
                     <p>{{item.title}}</p>
                     <div class="clearfix" v-if="item.cover">
@@ -24,7 +24,7 @@
                     </div>
                 </div>
             </div>
-            <div v-else>还没有收藏</div>
+            <div v-else class="notCollect">还没有收藏</div>
         </div>
     </div>
 </template>
@@ -65,6 +65,11 @@ export default {
 .mycollect .van-nav-bar__title 
     font-size 3.611vw
     font-weight 600
+.notCollect
+    padding 2.778vw
+    font-size 3.333vw
+    color #777
+    text-align center
 .content
     padding 10px 10px
     .collection
@@ -77,6 +82,8 @@ export default {
         p
             font-size 4.167vw
             padding 3px 0
+            &:active
+                color #666
         span
             font-size 3.611vw
             color #888
