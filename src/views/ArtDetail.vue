@@ -3,8 +3,7 @@
         <van-nav-bar
         left-arrow
         left-text="NEW"
-        @click-left="onClickLeft"
-        >
+        @click-left="onClickLeft">
             <template v-if="!isFocus">
                 <button slot="right" :style="{backgroundColor:'red',color:'#fff'}"
                 @click="focusUser"
@@ -13,13 +12,22 @@
             <template v-else>
                 <button slot="right">已关注</button>
             </template>
-                    
-            
         </van-nav-bar>
 
         <van-panel :title="artContent.title"
         :desc="artContent.user.nickname+' '+artContent.create_date|formatDate">
-            <div v-html="artContent.content"></div>
+            <template v-if="artContent.content.indexOf('https')=== -1">
+                <div v-html="artContent.content"></div>
+            </template>
+            <template v-else>
+                <div class="video-box">
+                    <video controls autoplay name='media'>
+                        <!-- https://vd4.bdstatic.com/mda-jigm2w3xxpfgfg9y/sc/mda-jigm2w3xxpfgfg9y.mp4?auth_key=1568816604-0-0-52d6f09c249827e9247fc0ef48f50024&bcevod_channel=searchbox_feed&abtest=all -->
+                        <source :src="artContent.content.trim()" type="video/mp4">
+                        <!-- <source :src="artContent.content" type="video/webm"> -->
+                    </video>
+                </div>
+            </template>
             <div slot="footer">
                 <van-button size="small"
                 @click="addDianZan"><span class="iconfont icon-dianzan"></span>{{count}}</van-button>
@@ -73,10 +81,24 @@ export default {
             this.$http.get(`/user_follows/${this.id}`).then(res=>{
                 // console.log(res);
                 const {message}=res.data
-                if(message==='关注成功'){
+                if(message==='关注成功'|| message==="已关注"){
                     this.isFocus=true
-                    this.$toast(message)
+                    this.$toast({
+                        message:message,
+                        duration:500
+                    })
                 }
+            })
+        },
+        getFocusList(){
+            this.$http.get('/user_follows').then(res=>{
+            // console.log(res);
+                const {data}=res.data
+                data.map(item=>{
+                    if(item.id==this.id){
+                        this.isFocus=true
+                    }
+                })
             })
         }
     },
@@ -92,7 +114,8 @@ export default {
             return false
         }
         this.getArtDetails(this.id)
-    },
+        this.getFocusList()
+    }
 }
 
 </script>
@@ -110,7 +133,7 @@ export default {
             filter brightness(90%)
     span.van-nav-bar__text
         color red 
-        font-size 5vw
+        font-size 4.722vw
         font-weight 600
 .van-panel
     .van-cell__title
@@ -127,6 +150,10 @@ export default {
                     font-size 3.611vw
                     .icon-iconfontweixin:before
                         color green
+    .video-box
+        padding 10px
+        video
+            width 100%
 .content
     .page
         p 

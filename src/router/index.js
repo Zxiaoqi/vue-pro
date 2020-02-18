@@ -12,6 +12,8 @@ import Index from '@/views/Index'
 import Search from '@/views/Search'
 import CategoryList from "@/views/CategoryList";
 import ArtDetail from "@/views/ArtDetail";
+import UserComment from "@/views/UserComment";
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -63,6 +65,10 @@ const routes = [
 	{
 		path: "/artdetail",
 		component: ArtDetail
+	},
+	{
+		path: "/useromment",
+		component: UserComment
 	}
 ];
 

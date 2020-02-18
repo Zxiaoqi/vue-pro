@@ -13,7 +13,7 @@
             <van-cell title="我的关注" value="关注的用户"
             is-link to="/myfocus"/>
             <van-cell title="我的跟帖" value="跟帖/回复"
-            is-link to="/person"/>
+            is-link to="/useromment"/>
             <van-cell title="我的收藏" value="文章/视频"
             is-link to="/collection"/>
             <van-cell title="设置"

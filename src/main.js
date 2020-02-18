@@ -10,7 +10,7 @@ Vue.use(Vant);
 
 
 import axios from "axios";
-// 先设置
+// 先设置http://liangwei.tech:3000,http://127.0.0.1:3000
 axios.defaults.baseURL = "http://127.0.0.1:3000";
 
 axios.interceptors.request.use(
