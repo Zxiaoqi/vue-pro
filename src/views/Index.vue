@@ -55,7 +55,7 @@ export default {
     methods: {
         onLoad(){
             const activeCategory=this.cateList[this.activeTab]
-            activeCategory.pageSize ++
+            activeCategory.pageIndex ++
             setTimeout(() => {
                 this.getArtList()
             }, 1000);
@@ -66,7 +66,7 @@ export default {
             data.forEach(el=>{
                 el.posts=[];
                 el.pageIndex=1;
-                el.pageSize=5;
+                el.pageSize=4;
                 el.loading=false;
                 el.finished=false
             })
@@ -91,7 +91,8 @@ export default {
                 // console.log(res);
                 const {data}=res.data
                 if(!res.data.statusCode){
-                    activeCategory.posts=[...data]
+                    //数据添加
+                    activeCategory.posts=[...activeCategory.posts,...data]
                     activeCategory.loading=false
                     if(data.length < activeCategory.pageSize){
                         activeCategory.finished=true
