@@ -12,7 +12,7 @@
         >
         <div slot="action" @click="onSearch">搜索</div>
         </van-search>
-        <van-tabs v-model="activeTab" sticky>
+        <van-tabs v-model="activeTab" sticky swipeable>
             <van-tab v-for="(item,i) in cateList" :title="item.name" :key="i">
                 <van-list
                 v-model="item.loading"
