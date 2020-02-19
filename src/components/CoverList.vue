@@ -5,8 +5,8 @@
                 <div class="left-cover">
                     <div class="title" v-on="Listeners">{{post.title}}</div>
                     <div class="user">
-                        <span>{{post.user.nickname}}</span>
-                        <span>{{post.comment_length}}跟帖</span>
+                        <span class="alt">{{post.user.nickname}}</span>
+                        <slot class="alt"></slot>
                     </div>
                 </div>
                 <div class="img-cover" v-on='Listeners'>
@@ -22,8 +22,8 @@
                     <img :src="post.cover[2].url"/>
                 </div>
                 <div class="user">
-                    <span>{{post.user.nickname}}</span>
-                    <span>{{post.comment_length}}跟帖</span>
+                    <span class="alt">{{post.user.nickname}}</span>
+                    <slot class="alt"></slot>
                 </div>
             </div>
         </div>
@@ -35,8 +35,8 @@
                 <div class="mark iconfont icon-bofang"></div>
             </div>
             <div class="user">
-                <span>{{post.user.nickname}}</span>
-                <span>{{post.comment_length}}跟帖</span>
+                <span class="alt">{{post.user.nickname}}</span>
+                <slot class="alt"></slot>
             </div>
         </div>
     </div>

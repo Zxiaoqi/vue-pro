@@ -4,24 +4,12 @@
             <van-nav-bar
             title="我的收藏"
             left-arrow
+            fixed
             @click-left="onClickLeft"
             />
             <div class="content" v-if="articleList.length!==0">
-                <div class="collection" v-for="(item,i) in articleList" :key="i">
-                    <div class="title">{{item.title}}</div>
-                    <div class="clearfix" v-if="item.cover">
-                        <van-image
-                        width="30.833vw"
-                        height="22.222vw"
-                        fit="cover"
-                        v-for="(item1,j) in item.cover" :key="j"
-                        :src="item1.url"
-                        />
-                    </div>
-                    <div class="user">
-                        <span>{{item.user.nickname}}</span>
-                        <span></span>
-                    </div>
+                <div v-for="(item,i) in articleList" :key="i">
+                    <Cover :post="item" @click="toArtDetail(item.id)"></Cover>
                 </div>
             </div>
             <div v-else class="notCollect">还没有收藏</div>
@@ -31,14 +19,20 @@
 
 
 <script>
-
+import Cover from '../components/CoverList'
 export default {
+    components:{
+        Cover
+    },
     data(){
         return {
             articleList:[]
         }
     },
     methods: {
+        toArtDetail(id){
+            this.$router.push({path:'/artdetail',query:{id:id}})
+        },
         getArticleList(){
             this.$http.get('/user_star').then(res=>{
                 // console.log(res);
@@ -51,7 +45,7 @@ export default {
             })
         },
         onClickLeft(){
-            this.$router.push({path:'/person',query:{id:window.sessionStorage.getItem('user_id')}})
+            this.$router.back(-1)
         },
     },
     created() {
@@ -72,23 +66,5 @@ export default {
     text-align center
 .content
     padding 0 10px
-    .collection
-        width 100%
-        padding 5px 0 10px
-        border-bottom 1px solid #eee
-        .van-image
-            float left
-            padding-right  1px 
-        .title
-            font-size 4.167vw
-            font-family 'MicrosoftYaHei'
-            padding 5px 0
-            &:active
-                color #666
-        .user
-            span
-                display inline-block
-                font-size 3.611vw
-                color #888
-                padding 8px 5px 0 0
+    margin-top 45px
 </style>

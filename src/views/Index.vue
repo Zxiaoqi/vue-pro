@@ -12,12 +12,19 @@
         >
         <div slot="action" @click="onSearch">搜索</div>
         </van-search>
-        <van-tabs :style="tabsStyle" v-model="activeTab" sticky
-        @click="getArtList(cateList[activeTab].id)">
+        <van-tabs v-model="activeTab" sticky>
             <van-tab v-for="(item,i) in cateList" :title="item.name" :key="i">
-                <div v-for="(item,i) in articleList" :key="i">
-                    <Cover :post="item" @click="toArtDetail(item.id)"></Cover>
-                </div> 
+                <van-list
+                v-model="item.loading"
+                :finished="item.finished"
+                finished-text="没有更多了"
+                :immediate-check='false'
+                @load="onLoad">
+                    <Cover :post="item1" v-for="(item1,i) in item.posts" :key="i"
+                    @click="toArtDetail(item.id)">
+                        <span>{{item1.comment_length}}跟帖</span>
+                    </Cover>
+                </van-list>
             </van-tab>
         </van-tabs>
         <!-- 底部导航 -->
@@ -41,42 +48,66 @@ export default {
     data(){
         return {
             active:0,
-            articleList:[],
-            tabsStyle:'',
-            marginTop:'',
             activeTab:0,
             cateList:[]
         }
     },
     methods: {
+        onLoad(){
+            const activeCategory=this.cateList[this.activeTab]
+            activeCategory.pageSize ++
+            setTimeout(() => {
+                this.getArtList()
+            }, 1000);
+            // console.log(activeCategory.finished);
+            
+        },
+        initCategory(data){
+            data.forEach(el=>{
+                el.posts=[];
+                el.pageIndex=1;
+                el.pageSize=5;
+                el.loading=false;
+                el.finished=false
+            })
+            return data
+        },
         onSearch(){
             this.$router.push('/search')
-        },
-        toCate(){
-
         },
         toArtDetail(id){
             this.$router.push({path:'/artdetail',query:{id:id}})
         },
-        getArtList(id){
+        //文章列表id
+        getArtList(){
+            const activeCategory = this.cateList[this.activeTab]
+            // console.log(activeCategory);
             this.$http.get('/post',
             {params:{
-                category:id
+                category:activeCategory.id,
+                pageIndex:activeCategory.pageIndex,
+                pageSize:activeCategory.pageSize
             }}).then(res=>{
-                console.log(res);
+                // console.log(res);
                 const {data}=res.data
                 if(!res.data.statusCode){
-                    this.articleList=data
+                    activeCategory.posts=[...data]
+                    activeCategory.loading=false
+                    if(data.length < activeCategory.pageSize){
+                        activeCategory.finished=true
+                    }
                 }
             })
-            this.active=id
         },
+        //栏目列表
         getCateList(){
             this.$http.get('/category').then(res=>{
                 // console.log(res);
                 const {data,statusCode}=res.data
                 if(!statusCode){
-                    this.cateList=data
+                    // this.cateList=data
+                    this.cateList=this.initCategory(data)
+                    this.getArtList()
                 }
             })
         },
@@ -102,11 +133,19 @@ export default {
             }
         }
     },
+    watch: {
+        activeTab(newId){
+            const categoryDate=this.cateList[newId]
+            // console.log(categoryDate);
+            if(categoryDate.posts.length==0){
+                this.getArtList()
+            }
+        }
+    },
     mounted() {
         // window.addEventListener("scroll", this.tabsTop);
     },
     created() {
-        this.getArtList()
         this.getCateList()
     },
 }
@@ -124,37 +163,7 @@ export default {
         color #fff
     .van-tabs
         background-color #fff
-        top 0
-        z-index 999
+        padding-bottom 50px
 .van-tabs__content
     padding 0 10px
-    // .collection
-    //     width 100%
-    //     padding 5px 0 10px
-    //     .van-image
-    //         float left
-    //         padding-right  1px 
-    //     .title
-    //         font-size 4.167vw
-    //         font-family 'MicrosoftYaHei'
-    //         padding 5px 0
-    //         &:active
-    //             color #666
-    //     .user
-    //         span
-    //             display inline-block
-    //             font-size 3.611vw
-    //             color #888
-    //             padding 8px 5px 0 0
-// .clearfix:after{
-//   content: "020"; 
-//   display: block; 
-//   height: 0; 
-//   clear: both; 
-//   visibility: hidden;  
-//   }
-// .clearfix {
-//   /* 触发 hasLayout */ 
-//   zoom: 1; 
-//   }
 </style>
