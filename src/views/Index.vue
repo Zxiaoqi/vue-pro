@@ -21,7 +21,7 @@
                 :immediate-check='false'
                 @load="onLoad">
                     <Cover :post="item1" v-for="(item1,i) in item.posts" :key="i"
-                    @click="toArtDetail(item.id)">
+                    @click="toArtDetail(item1.id)">
                         <span>{{item1.comment_length}}跟帖</span>
                     </Cover>
                 </van-list>
