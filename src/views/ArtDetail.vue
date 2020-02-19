@@ -2,6 +2,7 @@
     <div>
         <van-nav-bar
         left-arrow
+        fixed
         left-text="NEW"
         @click-left="onClickLeft">
             <template v-if="!isFocus">
@@ -136,6 +137,7 @@ export default {
         font-size 4.722vw
         font-weight 600
 .van-panel
+    margin-top 12vw
     .van-cell__title
         span 
             font-size 5vw
