@@ -66,7 +66,7 @@ export default {
             data.forEach(el=>{
                 el.posts=[];
                 el.pageIndex=1;
-                el.pageSize=4;
+                el.pageSize=5;
                 el.loading=false;
                 el.finished=false
             })

@@ -5,29 +5,24 @@
         fixed
         left-text="NEW"
         @click-left="onClickLeft">
-            <template v-show="!isFocus">
-                <button slot="right" :style="{backgroundColor:'red',color:'#fff'}"
-                @click="focusUser"
-                >{{btnFocus}}</button>
-            </template>
-            <template v-show="isFocus">
-                <button slot="right">已关注</button>
-            </template>
+            <button v-show="!artContent.has_follow" slot="right" :style="{backgroundColor:'red',color:'#fff'}"
+            @click="focusUser"
+            >{{btnFocus}}</button>
+            <button v-show="artContent.has_follow" slot="right">已关注</button>
         </van-nav-bar>
 
-        <van-panel :title="artContent.title"
+        <van-panel :title="artContent.title" :icon="'http://liangwei.tech:3000'+artContent.user.head_img"
         :desc="artContent.user.nickname+' '+artContent.create_date|formatDate">
-            <template v-if="artContent.content.indexOf('https')=== -1">
-                <div v-html="artContent.content"></div>
-            </template>
-            <template v-else>
+            <template v-if="artContent.type==2">
                 <div class="video-box">
-                    <video controls autoplay name='media'>
-                        <!-- https://vd4.bdstatic.com/mda-jigm2w3xxpfgfg9y/sc/mda-jigm2w3xxpfgfg9y.mp4?auth_key=1568816604-0-0-52d6f09c249827e9247fc0ef48f50024&bcevod_channel=searchbox_feed&abtest=all -->
+                    <video controls :poster="artContent.cover[0].url">
+                        <source src="https://video.pearvideo.com/mp4/adshort/20200219/cont-1632418-14924288_adpkg-ad_hd.mp4" type="video/mp4">
                         <source :src="artContent.content.trim()" type="video/mp4">
-                        <!-- <source :src="artContent.content" type="video/webm"> -->
                     </video>
                 </div>
+            </template>
+            <template v-if="artContent.content.indexOf('https')=== -1">
+                <div v-html="artContent.content"></div>
             </template>
             <div slot="footer">
                 <van-button size="small"
@@ -50,15 +45,17 @@ export default {
                 title:'',
                 content:'',
                 user:{},
+                cover:'',
+                has_follow:false
             },
-            isFocus:false,
+            // isFocus:false,
             count:1
         }
     },
     methods: {
         getArtDetails(id){
             this.$http.get(`/post/${id}`).then(res=>{
-                // console.log(res);
+                console.log(res);
                 const {data}=res.data
                 this.artContent=data
             })
@@ -83,7 +80,7 @@ export default {
                 // console.log(res);
                 const {message}=res.data
                 if(message==='关注成功'|| message==="已关注"){
-                    this.isFocus=true
+                    // this.has_follow=true
                     this.$toast({
                         message:message,
                         duration:500
@@ -138,7 +135,7 @@ export default {
             font-size 4.722vw
             font-weight 600
 .van-panel
-    margin-top 12vw
+    margin-top 12.222vw
     .van-cell__title
         span 
             font-size 5vw
@@ -153,11 +150,12 @@ export default {
                     font-size 3.611vw
                     .icon-iconfontweixin:before
                         color green
-    .video-box
-        padding 10px
-        video
-            width 100%
+.video-box
+    padding 10px
+    video
+        width 100%
 .content
+    margin-top 1.389vw
     .page
         p 
             font-family: 'Arial Normal', 'Arial';
@@ -181,4 +179,7 @@ export default {
                 color #666
                 font-size 4.167vw
                 padding 5px 0
+.van-panel__header
+    .van-cell__left-icon
+        align-self flex-end
 </style>
