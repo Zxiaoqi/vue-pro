@@ -5,12 +5,12 @@
         fixed
         left-text="NEW"
         @click-left="onClickLeft">
-            <template v-if="!isFocus">
+            <template v-show="!isFocus">
                 <button slot="right" :style="{backgroundColor:'red',color:'#fff'}"
                 @click="focusUser"
                 >{{btnFocus}}</button>
             </template>
-            <template v-else>
+            <template v-show="isFocus">
                 <button slot="right">已关注</button>
             </template>
         </van-nav-bar>
@@ -51,7 +51,7 @@ export default {
                 content:'',
                 user:{},
             },
-            isFocus:'',
+            isFocus:false,
             count:1
         }
     },
