@@ -8,7 +8,8 @@
             <button v-show="!artContent.has_follow" slot="right" :style="{backgroundColor:'red',color:'#fff'}"
             @click="focusUser"
             >{{btnFocus}}</button>
-            <button v-show="artContent.has_follow" slot="right">已关注</button>
+            <button v-show="artContent.has_follow" slot="right"
+            @click="cancelFoucs">已关注</button>
         </van-nav-bar>
 
         <van-panel :title="artContent.title" :icon="'http://liangwei.tech:3000'+artContent.user.head_img"
@@ -48,14 +49,13 @@ export default {
                 cover:'',
                 has_follow:false
             },
-            // isFocus:false,
             count:1
         }
     },
     methods: {
         getArtDetails(id){
             this.$http.get(`/post/${id}`).then(res=>{
-                console.log(res);
+                // console.log(res);
                 const {data}=res.data
                 this.artContent=data
             })
@@ -80,7 +80,21 @@ export default {
                 // console.log(res);
                 const {message}=res.data
                 if(message==='关注成功'|| message==="已关注"){
-                    // this.has_follow=true
+                    this.artContent.has_follow=true
+                    this.$toast({
+                        message:message,
+                        duration:500
+                    })
+                }
+            })
+        },
+        //取消关注
+        cancelFoucs(){
+            this.$http.get(`/user_unfollow/${this.id}`).then(res=>{
+                // console.log(res);
+                const {message}=res.data
+                if(message==='取消关注成功'){
+                    this.artContent.has_follow=false
                     this.$toast({
                         message:message,
                         duration:500
