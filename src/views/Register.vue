@@ -50,7 +50,7 @@ export default {
             if(!res.statusCode){
                 this.$toast.success('注册成功')
                 setTimeout(() => {
-                    this.router.push('/person',{
+                    this.$router.push('/person',{
                         params:{
                             username:this.username,
                             password:this.password,

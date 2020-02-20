@@ -132,10 +132,11 @@ export default {
         background-color #ececec
         &:active
             filter brightness(90%)
-    span.van-nav-bar__text
-        color red 
-        font-size 4.722vw
-        font-weight 600
+    .van-nav-bar__left
+        span.van-nav-bar__text
+            color red 
+            font-size 4.722vw
+            font-weight 600
 .van-panel
     margin-top 12vw
     .van-cell__title

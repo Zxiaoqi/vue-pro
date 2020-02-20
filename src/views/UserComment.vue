@@ -6,31 +6,35 @@
         @click-left="onClickLeft"
         />
         <!-- 评论展示区 -->
-        <div class="comment-box" v-for="(item,i) in comments" :key="i">
-            <div class="comments-time">
-                <span class="comment-date">{{item.create_date.split('T')[0]}}</span>
-                <span class="comment-hours">{{item.create_date.split('T')[1].slice(0,5)}}</span>
-            </div>
-            <div class="reply">
-                <template v-if="item.parent" >
-                    <div class="reply-box">
-                        <div class="reply-user">
-                            回复<span>{{item.parent.user.nickname}}</span>
+        <template v-if="comments.length>0">
+            <div class="comment-box"
+            v-for="(item,i) in comments" :key="i">
+                <div class="comments-time">
+                    <span class="comment-date">{{item.create_date.split('T')[0]}}</span>
+                    <span class="comment-hours">{{item.create_date.split('T')[1].slice(0,5)}}</span>
+                </div>
+                <div class="reply">
+                    <template v-if="item.parent" >
+                        <div class="reply-box">
+                            <div class="reply-user">
+                                回复<span>{{item.parent.user.nickname}}</span>
+                            </div>
+                            <div class="reply-msg">
+                                {{item.parent.content}}
+                            </div>
                         </div>
-                        <div class="reply-msg">
-                            {{item.parent.content}}
-                        </div>
+                    </template>
+                    <div class="child-reply">
+                        <p>{{item.content}}</p>
                     </div>
-                </template>
-                <div class="child-reply">
-                    <p>{{item.content}}</p>
+                </div>
+                <div class="original">
+                    <span class="link-original">原文：{{item.post.title}}</span>
+                    <van-icon name="arrow" />
                 </div>
             </div>
-            <div class="original">
-                <span class="link-original">原文：{{item.post.title}}</span>
-                <van-icon name="arrow" />
-            </div>
-        </div>
+        </template>
+        <div v-else class="notCollect">还没有跟帖！</div>
     </div>
 </template>
 
@@ -109,4 +113,9 @@ export default {
                 text-overflow: ellipsis
             .van-icon
                 line-height 6.111vw
+.notCollect
+    padding 2.778vw
+    font-size 3.333vw
+    color #777
+    text-align center
 </style>

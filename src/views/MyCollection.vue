@@ -4,7 +4,6 @@
             <van-nav-bar
             title="我的收藏"
             left-arrow
-            fixed
             @click-left="onClickLeft"
             />
             <div class="content" v-if="articleList.length!==0">

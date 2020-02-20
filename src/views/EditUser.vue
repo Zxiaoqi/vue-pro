@@ -71,9 +71,10 @@ export default {
 </script>
     
 <style lang="stylus">
-.edituser .van-nav-bar__title 
-    font-size 3.611vw
-    font-weight 600
+.edituser
+    .van-nav-bar__title 
+        font-size 3.611vw
+        font-weight 600
 .edituser .van-image
         position relative
         left 50%
