@@ -1,11 +1,5 @@
 <template>
-    <div class="comments">
-        <van-nav-bar
-        title="精彩跟帖"
-        left-arrow
-        fixed
-        @click-left="onClickLeft"
-        />
+    <div class="comments" :commentList='commentList'>
         <!-- 评论展示区 -->
         <div class="comment-content">
             <template v-if="commentList.length>0">
@@ -13,7 +7,8 @@
                 v-for="(item,i) in commentList" :key="i">
                     <div class="review-user">
                         <div class="user-img">
-                            <img :src="'http://liangwei.tech:3000'+item.user.head_img">
+                            <img v-if="!item.user.head_img" src="../assets/logo.png">
+                            <img v-else :src="'http://liangwei.tech:3000'+item.user.head_img">
                         </div>
                         <div class="user-name">
                             <h5>{{item.user.nickname}}</h5>
@@ -21,10 +16,6 @@
                         </div>
                         <div class="reply-btn">回复</div>
                     </div>
-                    <!-- <div class="comments-time">
-                        <span class="comment-date">{{item.create_date.split('T')[0]}}</span>
-                        <span class="comment-hours">{{item.create_date.split('T')[1].slice(0,5)}}</span>
-                    </div> -->
                     <div class="reply">
                         <Parent :parent='item.parent' v-if="item.parent">
                         </Parent>
@@ -41,31 +32,13 @@
 
 
 <script>
+import '../assets/logo.png'
 import Parent from '../components/Parent'
 export default {
     components:{
         Parent
     },
-    data() {
-        return {
-            commentList:[]
-        }
-    },
-    methods: {
-        onClickLeft(){
-            // this.$router.back(-1)
-        },
-        getUserComments(){
-            this.$http.get(`/post_comment/${5}`).then(res=>{
-                console.log(res);
-                const {data}=res.data
-                this.commentList=data
-            })
-        }
-    },
-    created() {
-        this.getUserComments()
-    },
+    props:['commentList']
 }
 
 </script>
@@ -73,7 +46,7 @@ export default {
 <style lang="stylus">
 .comments
     .comment-content
-        padding-top 11.944vw
+        padding 11.944vw 0
         .van-nav-bar__title
             font-size 3.611vw
             font-weight 600

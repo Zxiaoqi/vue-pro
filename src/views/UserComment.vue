@@ -51,7 +51,7 @@ export default {
         },
         getUserComments(){
             this.$http.get('/user_comments').then(res=>{
-                console.log(res);
+                // console.log(res);
                 const {data}=res.data
                 this.comments=data
             })

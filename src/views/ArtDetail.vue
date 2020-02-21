@@ -31,13 +31,20 @@
                 <van-button size="small"><span class="iconfont icon-iconfontweixin"></span>微信</van-button>
             </div>
         </van-panel>
+        <review :commentList="commentList"></review>
+        <div class="more-review">
+            <button @click="moreComment">更多跟帖</button>
+        </div>
     </div>
 </template>
 
 
 <script>
-
+import review from '../components/Reviews'
 export default {
+    components:{
+        review
+    },
     data(){
         return {
             id:'',
@@ -49,16 +56,29 @@ export default {
                 cover:'',
                 has_follow:false
             },
-            count:1
+            count:1,
+            commentList:[]
         }
     },
     methods: {
+        //获取文章详情
         getArtDetails(id){
             this.$http.get(`/post/${id}`).then(res=>{
                 // console.log(res);
                 const {data}=res.data
                 this.artContent=data
             })
+        },
+        //获取文章评论列表
+        getCommentList(id){
+            this.$http.get(`/post_comment/${id}`).then(res=>{
+                // console.log(res);
+                const {data}=res.data
+                this.commentList=data.slice(0,3)
+            })
+        },
+        moreComment(){
+            this.$router.push({path:'/morecomment',query:{id:this.id}})
         },
         onClickLeft(){
             this.$router.back(-1)
@@ -127,6 +147,7 @@ export default {
         }
         this.getArtDetails(this.id)
         this.getFocusList()
+        this.getCommentList(this.id)
     }
 }
 
@@ -197,4 +218,15 @@ export default {
 .van-panel__header
     .van-cell__left-icon
         align-self flex-end
+.more-review
+    padding 5.556vw
+    text-align center
+    button 
+        width 19.444vw
+        height 8.333vw
+        outline 0
+        border 1px solid #555
+        border-radius 4.167vw 
+        font-size 3.611vw
+        color #666
 </style>

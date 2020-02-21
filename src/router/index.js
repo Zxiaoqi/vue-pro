@@ -13,7 +13,7 @@ import Search from '@/views/Search'
 import CategoryList from "@/views/CategoryList";
 import ArtDetail from "@/views/ArtDetail";
 import UserComment from "@/views/UserComment";
-import Reviews from "../components/Reviews";
+import MoreComment from "@/views/MoreComment";
 Vue.use(VueRouter)
 
 const routes = [
@@ -71,8 +71,8 @@ const routes = [
 		component: UserComment
 	},
 	{
-		path: "/reviews",
-		component: Reviews
+		path: "/morecomment",
+		component: MoreComment
 	}
 ];
 
