@@ -162,6 +162,7 @@ export default {
                 border-radius 4.167vw
                 .van-button__text
                     font-size 3.611vw
+                    color #999
                     .icon-iconfontweixin:before
                         color green
 .video-box
