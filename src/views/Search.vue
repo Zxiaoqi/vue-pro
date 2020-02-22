@@ -13,13 +13,13 @@
                 <div slot="action" @click="onSearch">搜索</div>
             </van-search>
         </div>
-        <van-panel title="历史记录">
-            <p>内容</p>
+        <van-panel title="历史记录" v-if="oldValue.length!==0">
+            <div class="searchTitle" v-for="(item,i) in oldValue" :key="i"
+            @click="toDetail(item.id)">{{item.title}}</div>
         </van-panel>
         <van-panel title="热门搜索" v-if="recomSearch.length!==0">
-            <div v-for='(item,i) of recomSearch' :key="i">
-                <p>内容</p>
-            </div>
+            <div class="searchTitle" v-for='(item,i) of recomSearch' :key="i"
+            @click="toDetail(item.id)">{{item.title}}</div>
         </van-panel>
     </div>
 </template>
@@ -31,23 +31,38 @@ export default {
     data() {
         return {
             value:'',
-            recomSearch:[]
+            oldValue:[],
+            recomSearch:[],
+            pageIndex:0
         }
     },
     methods: {
-        onSearch(){
-            this.$http.get('/post_search',
-            {query:{
-                keyword:this.value,
-                pageIndex:1,
-                pageSize:2
-            }}).then(res=>{
-                console.log(res);
-            })
+        //to文章详情页
+        toDetail(id){
+            this.$router.push({path:'/artdetail',query:{id:id}})
         },
+        onSearch(){
+            if(this.value.trim().length!=0){
+                this.pageIndex ++
+                this.$http.get('/post_search',
+                {params:{
+                    keyword:this.value,
+                    pageIndex:this.pageIndex,
+                    pageSize:2
+                }}).then(res=>{
+                    // console.log(res);
+                    const {data}=res.data
+                    if(data.length!=0){
+                        this.oldValue=[...this.oldValue,...data]
+                    }
+                    this.value='' 
+                })
+            }
+        },
+        //推荐搜索
         recommendSearch(){
             this.$http.get('/post_search_recommend',
-            {query:{keyword:this.value}}).then(res=>{
+            {params:{keyword:''}}).then(res=>{
                 // console.log(res);
                 const {data,statusCode}=res.data
                 if(!statusCode){
@@ -55,8 +70,9 @@ export default {
                 }
             })
         },
+        //退出搜索
         quitSearch(){
-            this.$router.replace('/index')
+            this.$router.back(-1)
         }
     },
     created() {
@@ -80,8 +96,14 @@ export default {
         .van-cell__title
             span
                 font-size 3.611vw
-        p
-            padding 1.389vw 4.444vw
+        div.searchTitle
+            padding 1.667vw 4.444vw
             color #666
             font-size 3.611vw
+            white-space nowrap
+            text-overflow ellipsis 
+            overflow hidden
+            box-shadow 0 0 1px 0 #ccc inset
+            &:active
+                filter brightness(130%)
 </style>

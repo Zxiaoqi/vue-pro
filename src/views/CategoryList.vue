@@ -54,6 +54,7 @@ export default {
         onClickLeft(){
             this.$router.back(-1)
         },
+        //获取所有栏目
         getCateList(){
             this.$http.get('/category').then(res=>{
                 // console.log(res);
@@ -72,6 +73,7 @@ export default {
             this.selectLable.push(this.chosen[id])
             this.chosen.splice(id,1)
         },
+        //添加栏目请求
         addCate(){
             this.$http.post('/category',
             {name:this.cate}).then(res=>{

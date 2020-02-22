@@ -28,7 +28,8 @@
             </van-tab>
             <van-tab disabled></van-tab>
         </van-tabs>
-        <button>+</button>
+        <button class="tab-btn" :style="tabsStyle"
+        @click="toCategory">+</button>
         <!-- 底部导航 -->
         <van-tabbar v-model="active" fixed>
             <van-tabbar-item icon="home-o">首页</van-tabbar-item>
@@ -51,10 +52,12 @@ export default {
         return {
             active:0,
             activeTab:0,
-            cateList:[]
+            cateList:[],
+            tabsStyle:''
         }
     },
     methods: {
+        //下拉加载
         onLoad(){
             const activeCategory=this.cateList[this.activeTab]
             activeCategory.pageIndex ++
@@ -62,7 +65,6 @@ export default {
                 this.getArtList()
             }, 1000);
             // console.log(activeCategory.finished);
-            
         },
         initCategory(data){
             data.forEach(el=>{
@@ -114,24 +116,21 @@ export default {
                 }
             })
         },
+        toCategory(){
+            this.$router.push('/category')
+        },
         //定义滚动监听
         tabsTop(){
             let scroll=document.documentElement.scrollTop
             //  console.log(scroll);
-            if(scroll>55){
+            if(scroll>54){
                 this.tabsStyle ={
                     position:'fixed',
-                    width:100+'%'
-                }
-                this.marginTop = {
-                    marginTop:'55px'
+                    top:'0'
                 }
             }else{
                 this.tabsStyle={
-                    position:'relative',
-                }
-                this.marginTop = {
-                    marginTop:'0'
+                    position:'absolute',
                 }
             }
         }
@@ -146,7 +145,7 @@ export default {
         }
     },
     mounted() {
-        // window.addEventListener("scroll", this.tabsTop);
+        window.addEventListener("scroll", this.tabsTop);
     },
     created() {
         this.getCateList()
@@ -166,7 +165,21 @@ export default {
         color #fff
     .van-tabs
         background-color #fff
-        padding-bottom 50px
-.van-tabs__content
-    padding 0 10px
+        padding-bottom 13.889vw
+        .van-tab.van-tab--disabled
+            flex-basis 16% !important
+    .van-tabs__content
+        padding 0 2.778vw
+    .tab-btn
+        position absolute
+        top 14.444vw
+        right 0px
+        border 0
+        width 15.556vw
+        height 11.389vw
+        font-size 25px
+        background-color #fff
+        z-index 999
+        &:active
+            color #666
 </style>

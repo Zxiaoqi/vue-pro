@@ -106,7 +106,7 @@ export default {
             this.$router.push({path:'/morecomment',query:{id:this.id}})
         },
         onClickLeft(){
-            this.$router.back(-1)
+            this.$router.replace("/index")
         },
         addDianZan(){
             this.$http.get(`/post_like/${this.id}`).then(res=>{
@@ -215,118 +215,118 @@ export default {
 <style lang="stylus">
 .detail
     padding-bottom 13.889vw
-.van-nav-bar
-    button 
-        border 0
-        width 19.444vw
-        height 7.778vw
-        line-height 7.778vw
-        border-radius 14px
-        background-color #ececec
-        &:active
-            filter brightness(90%)
-    .van-nav-bar__left
-        span.van-nav-bar__text
-            color red 
-            font-size 4.722vw
-            font-weight 600
-.van-panel
-    margin-top 12.222vw
-    .van-cell__title
-        span 
-            font-size 5vw
-            font-weight 600
-    .van-panel__footer
-        div
-            display flex
-            justify-content space-around
-            .van-button
-                border-radius 4.167vw
-                .van-button__text
-                    font-size 3.611vw
-                    color #999
-                    .icon-iconfontweixin:before
-                        color green
-.video-box
-    padding 10px
-    video
-        width 100%
-.content
-    margin-top 1.389vw
-    .page
-        p 
-            font-family: 'Arial Normal', 'Arial';
-            font-size 3.889vw
-            color #333
-            font-weight 400
-            line-height: 7.778vw
-        .photo
-            a 
-                display block
-                img 
-                    width 100%
-                span 
-                    display block
-                    color #000
-                    font-size 3.889vw
-                    font-weight 600
-                    padding 5px 0
-        .otitle_editor
-            .editor
-                color #666
-                font-size 4.167vw
-                padding 5px 0
-.van-panel__header
-    .van-cell__left-icon
-        align-self flex-end
-.more-review
-    padding 5.556vw
-    text-align center
-    button 
-        width 19.444vw
-        height 8.333vw
-        outline 0
-        border 1px solid #555
-        border-radius 4.167vw 
-        font-size 3.611vw
-        color #666
-.comment-input
-    position fixed
-    bottom 0
-    background-color #fff
-    width 100%
-    .comment-box
-        padding 2.778vw 3.333vw 
-        display flex
-        justify-content space-between
-        align-content center
-    input 
-        border 0
-        width 52.778vw
-        height 8.333vw
-        background-color #eee
-        border-radius 4.167vw
-        box-sizing border-box
-        padding 0.833vw 2.778vw
-        font-size 3.333vw
-    .van-icon
-        line-height 8.333vw
-        font-size 6.667vw
-.van-action-sheet
-    .van-action-sheet__content
-        position relative
-        padding 10px
-        display flex
-        textarea
-            padding 2.778vw
-            resize none 
-            background-color #eee
-            font-size 3.611vw
+    .van-nav-bar
+        button 
             border 0
-            border-radius 1.667vw
-        .btn
-            position absolute
-            right 0
-            bottom 0
-            padding-bottom 2.778vw
+            width 19.444vw
+            height 7.778vw
+            line-height 7.778vw
+            border-radius 14px
+            background-color #ececec
+            &:active
+                filter brightness(90%)
+        .van-nav-bar__left
+            span.van-nav-bar__text
+                color red 
+                font-size 4.722vw
+                font-weight 600
+    .van-panel
+        margin-top 12.222vw
+        .van-cell__title
+            span 
+                font-size 5vw
+                font-weight 600
+        .van-panel__footer
+            div
+                display flex
+                justify-content space-around
+                .van-button
+                    border-radius 4.167vw
+                    .van-button__text
+                        font-size 3.611vw
+                        color #999
+                        .icon-iconfontweixin:before
+                            color green
+    .video-box
+        padding 10px
+        video
+            width 100%
+    .content
+        margin-top 1.389vw
+        .page
+            p 
+                font-family: 'Arial Normal', 'Arial';
+                font-size 3.889vw
+                color #333
+                font-weight 400
+                line-height: 7.778vw
+            .photo
+                a 
+                    display block
+                    img 
+                        width 100%
+                    span 
+                        display block
+                        color #000
+                        font-size 3.889vw
+                        font-weight 600
+                        padding 5px 0
+            .otitle_editor
+                .editor
+                    color #666
+                    font-size 4.167vw
+                    padding 5px 0
+    .van-panel__header
+        .van-cell__left-icon
+            align-self flex-end
+    .more-review
+        padding 5.556vw
+        text-align center
+        button 
+            width 19.444vw
+            height 8.333vw
+            outline 0
+            border 1px solid #555
+            border-radius 4.167vw 
+            font-size 3.611vw
+            color #666
+    .comment-input
+        position fixed
+        bottom 0
+        background-color #fff
+        width 100%
+        .comment-box
+            padding 2.778vw 3.333vw 
+            display flex
+            justify-content space-between
+            align-content center
+        input 
+            border 0
+            width 52.778vw
+            height 8.333vw
+            background-color #eee
+            border-radius 4.167vw
+            box-sizing border-box
+            padding 0.833vw 2.778vw
+            font-size 3.333vw
+        .van-icon
+            line-height 8.333vw
+            font-size 6.667vw
+    .van-action-sheet
+        .van-action-sheet__content
+            position relative
+            padding 10px
+            display flex
+            textarea
+                padding 2.778vw
+                resize none 
+                background-color #eee
+                font-size 3.611vw
+                border 0
+                border-radius 1.667vw
+            .btn
+                position absolute
+                right 0
+                bottom 0
+                padding-bottom 2.778vw
 </style>
