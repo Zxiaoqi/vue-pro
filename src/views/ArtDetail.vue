@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="detail">
         <van-nav-bar
         left-arrow
         fixed
@@ -31,19 +31,38 @@
                 <van-button size="small"><span class="iconfont icon-iconfontweixin"></span>微信</van-button>
             </div>
         </van-panel>
-        <review :commentList="commentList"></review>
+        <review :commentList="commentList" @onreply="onReply"></review>
         <div class="more-review">
             <button @click="moreComment">更多跟帖</button>
         </div>
+
+        <div class="comment-input">
+           <div class="comment-box">
+                <input type="text" placeholder="写跟贴"
+                @focus="showTextarea">
+                <van-icon name="chat-o" :info="artContent.comment_length" />
+                <van-icon name="star-o" v-if="!artContent.has_star" @click="onStar"/>
+                <van-icon name="star" color="#ffeb3b"
+                v-else-if="artContent.has_star" @click="onStar"/>
+                <van-icon name="ellipsis" />
+           </div>
+        </div>
+
+        <van-action-sheet v-model="show" title="标题">
+            <textarea v-model="textareaVal" rows="3" cols="35" name="" ref="foucsTextarea"></textarea>
+            <btn class="btn" rounded small color="red" @click="releaseComment">发送</btn>
+        </van-action-sheet>
     </div>
 </template>
 
 
 <script>
+import btn from '../components/AuthButton'
 import review from '../components/Reviews'
 export default {
     components:{
-        review
+        review,
+        btn
     },
     data(){
         return {
@@ -54,10 +73,15 @@ export default {
                 content:'',
                 user:{},
                 cover:'',
-                has_follow:false
+                has_follow:false,
+                has_star:false,
+                comment_length:''
             },
             count:1,
-            commentList:[]
+            commentList:[],
+            show:false,
+            textareaVal:'',
+            commentId:'',
         }
     },
     methods: {
@@ -77,6 +101,7 @@ export default {
                 this.commentList=data.slice(0,3)
             })
         },
+        //跳转更多跟帖
         moreComment(){
             this.$router.push({path:'/morecomment',query:{id:this.id}})
         },
@@ -122,15 +147,48 @@ export default {
                 }
             })
         },
-        getFocusList(){
-            this.$http.get('/user_follows').then(res=>{
-            // console.log(res);
-                const {data}=res.data
-                data.map(item=>{
-                    if(item.id==this.id){
-                        this.isFocus=true
-                    }
+        //异步聚焦
+        showTextarea(){
+            this.show=true
+            this.$nextTick(() =>{
+                this.$refs.foucsTextarea.focus()
+                // console.log(this.$refs.foucsTextarea)
+            })
+        },
+        //回复
+        onReply(id){
+            this.show=true
+            // console.log(id);
+            this.commentId=id
+        },
+        //发布评论
+        releaseComment(){
+            if(this.textareaVal.trim().length!=0){
+                this.$http.post(`/post_comment/${this.id}`,{
+                    content:this.textareaVal,
+                    parent_id:this.commentId
+                }).then(res=>{
+                    const {message}=res.data
+                    // console.log(res);
+                    if(message==='评论发布成功')
+                    this.$toast(message)
+                    this.show=false
+                    this.getCommentList(this.id)
                 })
+            }
+            
+        },
+        //收藏文章
+        onStar(){
+            this.$http.get(`/post_star/${this.id}`).then(res=>{
+                // console.log(res);
+                const {message}=res.data
+                if(message==='收藏成功'){
+                    this.artContent.has_star=true
+                }else{
+                    this.artContent.has_star=false
+                }
+                    this.$toast(message)
             })
         }
     },
@@ -139,6 +197,8 @@ export default {
             return time.split('T')[0]
         }
     },
+    mounted() {
+    },
     created() {
         this.id=this.$route.query.id
         if(!this.$route.query.id){
@@ -146,7 +206,6 @@ export default {
             return false
         }
         this.getArtDetails(this.id)
-        this.getFocusList()
         this.getCommentList(this.id)
     }
 }
@@ -154,6 +213,8 @@ export default {
 </script>
     
 <style lang="stylus">
+.detail
+    padding-bottom 13.889vw
 .van-nav-bar
     button 
         border 0
@@ -229,4 +290,43 @@ export default {
         border-radius 4.167vw 
         font-size 3.611vw
         color #666
+.comment-input
+    position fixed
+    bottom 0
+    background-color #fff
+    width 100%
+    .comment-box
+        padding 2.778vw 3.333vw 
+        display flex
+        justify-content space-between
+        align-content center
+    input 
+        border 0
+        width 52.778vw
+        height 8.333vw
+        background-color #eee
+        border-radius 4.167vw
+        box-sizing border-box
+        padding 0.833vw 2.778vw
+        font-size 3.333vw
+    .van-icon
+        line-height 8.333vw
+        font-size 6.667vw
+.van-action-sheet
+    .van-action-sheet__content
+        position relative
+        padding 10px
+        display flex
+        textarea
+            padding 2.778vw
+            resize none 
+            background-color #eee
+            font-size 3.611vw
+            border 0
+            border-radius 1.667vw
+        .btn
+            position absolute
+            right 0
+            bottom 0
+            padding-bottom 2.778vw
 </style>

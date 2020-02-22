@@ -26,7 +26,9 @@
                     </Cover>
                 </van-list>
             </van-tab>
+            <van-tab disabled></van-tab>
         </van-tabs>
+        <button>+</button>
         <!-- 底部导航 -->
         <van-tabbar v-model="active" fixed>
             <van-tabbar-item icon="home-o">首页</van-tabbar-item>
