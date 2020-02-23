@@ -35,7 +35,7 @@
         <div class="more-review">
             <button @click="moreComment">更多跟帖</button>
         </div>
-
+        <!-- 跟帖输入 -->
         <div class="comment-input">
            <div class="comment-box">
                 <input type="text" placeholder="写跟贴"
@@ -175,8 +175,8 @@ export default {
                     this.show=false
                     this.getCommentList(this.id)
                 })
+                this.textareaVal=''
             }
-            
         },
         //收藏文章
         onStar(){

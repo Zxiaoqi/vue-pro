@@ -9,7 +9,7 @@
                {{parent.content}}
            </div>
        </div>
-       <Parent :parent='parent.parent' v-if="parent.parent"></Parent>
+       <Parent :parent='parent.parent' v-if="parent.parent" @onreply="parentId"></Parent>
     </div>
 </template>
 
@@ -49,4 +49,7 @@ export default {
                     filter brightness(140%)
         .reply-msg
             font-size 3.889vw
+            white-space nowrap
+            overflow hidden
+            text-overflow: ellipsis
 </style>
