@@ -17,7 +17,7 @@
             <div class="searchTitle" v-for="(item,i) in oldValue" :key="i"
             @click="toDetail(item.id)">{{item.title}}</div>
         </van-panel>
-        <van-panel title="热门搜索" v-if="recomSearch.length!==0">
+        <van-panel title="热门搜索" v-else-if="recomSearch.length!==0">
             <div class="searchTitle" v-for='(item,i) of recomSearch' :key="i"
             @click="toDetail(item.id)">{{item.title}}</div>
         </van-panel>
@@ -54,8 +54,8 @@ export default {
                     const {data}=res.data
                     if(data.length!=0){
                         this.oldValue=[...this.oldValue,...data]
+                        localStorage.setItem('oldSearch',JSON.stringify(this.oldValue))
                     }
-                    this.value='' 
                 })
             }
         },
@@ -76,6 +76,10 @@ export default {
         }
     },
     created() {
+        const oldSearch=JSON.parse(localStorage.getItem('oldSearch'))
+        if(oldSearch){
+            this.oldValue=oldSearch
+        }
         this.recommendSearch()
     },
 }
