@@ -2,7 +2,8 @@
     <div class="Parent" :parent="parent">
         <div class="reply-box">
            <div class="reply-user">
-               回复@<span>{{parent.user.nickname}}：</span>
+               <span>回复@{{parent.user.nickname}}：</span>
+               <div class="reply-btn" @click="parentId(parent.id)">回复</div>
            </div>
            <div class="reply-msg">
                {{parent.content}}
@@ -17,7 +18,12 @@
 
 export default {
     name:'Parent',
-    props:['parent']
+    props:['parent'],
+    methods: {
+        parentId(id){
+            this.$emit('onreply',id)
+        }
+    },
 
 }
 
@@ -33,9 +39,14 @@ export default {
         background-color #e4e4e4
         color #797979
         .reply-user
+            display flex
+            justify-content space-between
             padding-bottom 1.944vw
             span 
                 color #797979
+            .reply-btn
+                &:active
+                    filter brightness(140%)
         .reply-msg
             font-size 3.889vw
 </style>

@@ -17,7 +17,7 @@
                         <div class="reply-btn" @click="parentId(item.id)">回复</div>
                     </div>
                     <div class="reply">
-                        <Parent :parent='item.parent' v-if="item.parent">
+                        <Parent :parent='item.parent' v-if="item.parent" @onreply="parentId">
                         </Parent>
                         <div class="child-reply">
                             <p>{{item.content}}</p>

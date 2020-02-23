@@ -157,7 +157,7 @@ export default {
         },
         //回复
         onReply(id){
-            this.show=true
+            this.showTextarea()
             // console.log(id);
             this.commentId=id
         },
